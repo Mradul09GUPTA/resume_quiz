@@ -1,0 +1,116 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+
+using namespace std;
+
+// Question structure to hold question, options, and correct answer
+struct Question {
+    string question;
+    map<char, string> options;
+    char correctOption;
+};
+
+// Function to display the quiz questions and get user's answers
+int conductQuiz(const vector<Question>& questions) {
+    int score = 0;
+    
+    for (size_t i = 0; i < questions.size(); ++i) {
+        cout << "Question " << i+1 << ": " << questions[i].question << endl;
+        
+        // Display options
+        for (const auto& option : questions[i].options) {
+            cout << option.first << ") " << option.second << endl;
+        }
+        
+        // Get user's answer
+        char userAnswer;
+        cout << "Enter your answer: ";
+        cin >> userAnswer;
+        
+        // Check if the answer is correct
+        if (toupper(userAnswer) == questions[i].correctOption) {
+            cout << "Correct!\n";
+            score++;
+        } else {
+            cout << "Incorrect. The correct answer is " << questions[i].correctOption << ".\n";
+        }
+        cout << endl;
+    }
+    
+    return score;
+}
+
+// Function to get user's resume information
+void getResumeInfo(string& name, string& education, string& experience) {
+    cout << "Please enter your name: ";
+    getline(cin >> ws, name);
+    
+    cout << "Please enter your educational background: ";
+    getline(cin, education);
+    
+    cout << "Please enter your work experience: ";
+    getline(cin, experience);
+}
+
+// Function to display the resume
+void displayResume(const string& name, const string& education, const string& experience, int score, int totalQuestions) {
+    cout << "\n\n================== Resume ==================\n\n";
+    cout << "Name: " << name << endl;
+    cout << "Education: " << education << endl;
+    cout << "Work Experience: " << experience << endl;
+    cout << "\nQuiz Score: " << score << "/" << totalQuestions << endl;
+    cout << "\n============================================\n\n";
+}
+
+int main() {
+    // Welcome message
+    cout << "Welcome to the Quiz and Resume Application!\n\n";
+
+    // Get user's resume information
+    string name, education, experience;
+    getResumeInfo(name, education, experience);
+
+    // Define questions
+    vector<Question> questions = {
+        {
+            "What is the capital of France?",
+            {
+                {'A', "London"},
+                {'B', "Paris"},
+                {'C', "Berlin"},
+                {'D', "Madrid"}
+            },
+            'B'
+        },
+        {
+            "Which planet is known as the Red Planet?",
+            {
+                {'A', "Mars"},
+                {'B', "Jupiter"},
+                {'C', "Venus"},
+                {'D', "Saturn"}
+            },
+            'A'
+        },
+        {
+            "What is the powerhouse of the cell?",
+            {
+                {'A', "Nucleus"},
+                {'B', "Cytoplasm"},
+                {'C', "Mitochondria"},
+                {'D', "Cell membrane"}
+            },
+            'C'
+        }
+    };
+    
+    // Conduct the quiz
+    int score = conductQuiz(questions);
+    
+    // Display the resume
+    displayResume(name, education, experience, score, questions.size());
+
+    return 0;
+}
